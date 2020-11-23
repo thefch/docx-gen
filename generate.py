@@ -1,4 +1,4 @@
-from StringIO import StringIO
+import io
 from docx.shared import Cm
 from docxtpl import DocxTemplate, InlineImage
 
@@ -40,7 +40,6 @@ def get_context():
 
 
 def from_template(template, signature):
-    target_file = StringIO()
 
     template = DocxTemplate(template)
     context = get_context()  # gets the context used to render the document
@@ -49,7 +48,7 @@ def from_template(template, signature):
     sign = InlineImage(template, signature, img_size)
     context['signature'] = sign  # adds the InlineImage object to the context
 
-    target_file = StringIO()
+    target_file = io.BytesIO()
     template.render(context)
     template.save(target_file)
 
